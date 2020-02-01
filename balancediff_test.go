@@ -24,6 +24,14 @@ func TestNoDiffBeforeTime(t *testing.T) {
 
 	// Next time we check, there is no diff since we only want to notify once
 	testDiff(t, d.Diff(when.Add(-time.Minute)), map[string]int64{})
+
+	// Balances are equal again
+	when = when.Add(time.Minute)
+	d.SetBalances(map[string]int64{"1": 1, "2": -1}, map[string]int64{"1": 1, "2": -1}, when)
+	// No diff
+	testDiff(t, d.Diff(when.Add(-time.Minute)), map[string]int64{})
+	// No diff
+	testDiff(t, d.Diff(when.Add(-time.Minute)), map[string]int64{})
 }
 
 func testDiff(t *testing.T, diff, desired map[string]int64) {
